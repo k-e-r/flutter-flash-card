@@ -21,7 +21,11 @@ jobs:
           channel: 'stable'
       - run: flutter --version
       - run: flutter pub get
-      - run: flutter build web --release
+      - name: Build Flutter Web
+        run: |
+          REPO_NAME=${GITHUB_REPOSITORY#*/}
+          flutter build web --release --base-href "/flutter-flash-card.github.io/"
+          cp build/web/index.html build/web/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
